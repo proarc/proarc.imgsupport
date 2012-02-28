@@ -16,6 +16,12 @@
  */
 package cz.incad.tiffsup;
 
+import com.lizardtech.djvu.DjVuInfo;
+import com.lizardtech.djvu.DjVuOptions;
+import com.lizardtech.djvu.DjVuPage;
+import com.lizardtech.djvubean.DjVuImage;
+import com.sun.media.jai.codec.ImageCodec;
+import com.sun.media.jai.codec.ImageDecoder;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -31,16 +37,11 @@ import java.awt.image.BufferedImage;
 import java.awt.image.ColorModel;
 import java.awt.image.RenderedImage;
 import java.awt.image.WritableRaster;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.net.URL;
 import java.util.Hashtable;
 import java.util.Iterator;
-import java.util.List;
-
 import javax.imageio.IIOImage;
 import javax.imageio.ImageIO;
 import javax.imageio.ImageReader;
@@ -49,14 +50,6 @@ import javax.imageio.ImageWriter;
 import javax.imageio.stream.FileImageOutputStream;
 import javax.imageio.stream.ImageInputStream;
 import javax.swing.JPanel;
-import javax.xml.xpath.XPathExpressionException;
-
-import com.lizardtech.djvu.DjVuInfo;
-import com.lizardtech.djvu.DjVuOptions;
-import com.lizardtech.djvu.DjVuPage;
-import com.lizardtech.djvubean.DjVuImage;
-import com.sun.media.jai.codec.ImageCodec;
-import com.sun.media.jai.codec.ImageDecoder;
 
 public class KrameriusImageSupport {
 
