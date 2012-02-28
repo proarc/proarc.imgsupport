@@ -65,6 +65,7 @@ public class KrameriusImageSupport {
     static {
         // disable djvu convertor verbose logging
         DjVuOptions.out = new java.io.PrintStream(new java.io.OutputStream() {
+
             public void write(int b) {
             }
         });
@@ -93,8 +94,9 @@ public class KrameriusImageSupport {
 
     public static BufferedImage readImage(URL url, ImageMimeType type) throws IOException {
         LOGGER.fine("type is " + type);
-        if (type == null)
+        if (type == null) {
             return null;
+        }
         if (type.javaNativeSupport()) {
             InputStream stream = url.openStream();
             return ImageIO.read(stream);
@@ -108,8 +110,9 @@ public class KrameriusImageSupport {
                 } else {
                     return convertRenderedImage(decodedImage);
                 }
-            } else
+            } else {
                 throw new IllegalArgumentException("no jai decoder for type '" + type.getValue() + "'");
+            }
 
         } else if ((type.equals(ImageMimeType.DJVU)) || (type.equals(ImageMimeType.VNDDJVU)) || (type.equals(ImageMimeType.XDJVU))) {
             com.lizardtech.djvu.Document doc = new com.lizardtech.djvu.Document(url);
@@ -129,10 +132,12 @@ public class KrameriusImageSupport {
                 } else {
                     return toBufferedImage(img);
                 }
-            } else
+            } else {
                 return null;
-        } else
+            }
+        } else {
             throw new IllegalArgumentException("unsupported mimetype '" + type.getValue() + "'");
+        }
     }
 
     // public static void writeImageToStream(BufferedImage image, String
@@ -152,8 +157,9 @@ public class KrameriusImageSupport {
                 int height = reader.getHeight(0);
                 int width = reader.getWidth(0);
                 return new Dimension(width, height);
-            } else
+            } else {
                 return null;
+            }
         } else {
             com.lizardtech.djvu.Document doc = new com.lizardtech.djvu.Document(url);
             doc.setAsync(false);
@@ -183,8 +189,9 @@ public class KrameriusImageSupport {
             writer.write(null, image, iwp);
             writer.dispose();
 
-        } else
+        } else {
             throw new IOException("No writer for format '" + javaFormat + "'");
+        }
 
     }
 
@@ -230,7 +237,7 @@ public class KrameriusImageSupport {
     /**
      * Convenience method that returns a scaled instance of the provided
      * {@code BufferedImage}.
-     * 
+     *
      * @param img
      *            the original image to be scaled
      * @param targetWidth

@@ -18,47 +18,41 @@ package cz.incad.tiffsup;
 
 public enum ImageMimeType {
 
-	JPEG("image/jpeg","jpg", true, false, false),
-	PNG("image/png","png", true, false, false),
-	JPEG2000("image/jp2","jp2",true, false ,false),
-	
-	XDJVU("image/x.djvu","djvu", false, false, true),
-	VNDDJVU("image/vnd.djvu","djvu", false, false, true),
-	DJVU("image/djvu","djvu", false, false, true),
-	PDF("application/pdf","pdf",false, false, true),
-	
-	TIFF("image/tif","tiff", false, true, false);
-	
-	private String value;
-	private boolean supportedbyJava;
-	private boolean supportedbyJAI;
-	private boolean multipageFormat;
-	private String defaultFileExtension;
-	
-	private ImageMimeType(String value, String defaultExtension, boolean javasupport, boolean jaiSupport, boolean multipageformat) {
-		this.value = value;
-		this.supportedbyJava = javasupport;
-		this.supportedbyJAI = jaiSupport;
-		this.multipageFormat = multipageformat;
-		this.defaultFileExtension = defaultExtension;
-	}
+    JPEG("image/jpeg", "jpg", true, false, false),
+    PNG("image/png", "png", true, false, false),
+    JPEG2000("image/jp2", "jp2", true, false, false),
+    XDJVU("image/x.djvu", "djvu", false, false, true),
+    VNDDJVU("image/vnd.djvu", "djvu", false, false, true),
+    DJVU("image/djvu", "djvu", false, false, true),
+    PDF("application/pdf", "pdf", false, false, true),
+    TIFF("image/tif", "tiff", false, true, false);
+    private String value;
+    private boolean supportedbyJava;
+    private boolean supportedbyJAI;
+    private boolean multipageFormat;
+    private String defaultFileExtension;
 
-	public String getValue() {
-		return value;
-	}
+    private ImageMimeType(String value, String defaultExtension, boolean javasupport, boolean jaiSupport, boolean multipageformat) {
+        this.value = value;
+        this.supportedbyJava = javasupport;
+        this.supportedbyJAI = jaiSupport;
+        this.multipageFormat = multipageformat;
+        this.defaultFileExtension = defaultExtension;
+    }
 
-	public boolean javaNativeSupport() {
-		return supportedbyJava;
-	}
-	
-	public boolean isMultipageFormat()  {
-		return this.multipageFormat;
-	}
-	
-	
-	
-	
-	public boolean isSupportedbyJAI() {
+    public String getValue() {
+        return value;
+    }
+
+    public boolean javaNativeSupport() {
+        return supportedbyJava;
+    }
+
+    public boolean isMultipageFormat() {
+        return this.multipageFormat;
+    }
+
+    public boolean isSupportedbyJAI() {
         return supportedbyJAI;
     }
 
@@ -71,10 +65,12 @@ public enum ImageMimeType {
     }
 
     public static ImageMimeType loadFromMimeType(String mime) {
-		ImageMimeType[] values = values();
-		for (ImageMimeType iType : values) {
-			if (iType.getValue().equals(mime)) return iType;
-		}
-		return null;
-	}
+        ImageMimeType[] values = values();
+        for (ImageMimeType iType : values) {
+            if (iType.getValue().equals(mime)) {
+                return iType;
+            }
+        }
+        return null;
+    }
 }
