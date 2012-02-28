@@ -26,7 +26,7 @@ public class ScaleTiff {
     
     public static void main(String[] args) throws MalformedURLException, IOException {
         File inputTif = new File("CCITT_1.TIF");
-        BufferedImage readImage = KrameriusImageSupport.readImage(inputTif.toURI().toURL(), ImageMimeType.TIFF);
+        BufferedImage readImage = ImageSupport.readImage(inputTif.toURI().toURL(), ImageMimeType.TIFF);
         BufferedImage scaled = scale(readImage,0.5);
             
         saveToFile("output.png", scaled);
@@ -36,7 +36,7 @@ public class ScaleTiff {
         File f = new File(fname);
         f.createNewFile();
         FileImageOutputStream fios = new FileImageOutputStream(f);
-        KrameriusImageSupport.writeImageToStream(scaledImage, "png", fios, 1.0f);
+        ImageSupport.writeImageToStream(scaledImage, "png", fios, 1.0f);
     }
     
     public static BufferedImage scale(BufferedImage readImage, double scaleFactor) {
@@ -48,7 +48,7 @@ public class ScaleTiff {
         int scaledW = (int) (width * scaleFactor);
         
         System.out.println(readImage);
-        BufferedImage scaled = KrameriusImageSupport.scale(readImage, scaledW, scaledH);
+        BufferedImage scaled = ImageSupport.scale(readImage, scaledW, scaledH);
         return scaled;
     }
 }

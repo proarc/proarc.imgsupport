@@ -42,6 +42,7 @@ import java.io.InputStream;
 import java.net.URL;
 import java.util.Hashtable;
 import java.util.Iterator;
+import java.util.logging.Logger;
 import javax.imageio.IIOImage;
 import javax.imageio.ImageIO;
 import javax.imageio.ImageReader;
@@ -51,9 +52,9 @@ import javax.imageio.stream.FileImageOutputStream;
 import javax.imageio.stream.ImageInputStream;
 import javax.swing.JPanel;
 
-public class KrameriusImageSupport {
+public final class ImageSupport {
 
-    static java.util.logging.Logger LOGGER = java.util.logging.Logger.getLogger(KrameriusImageSupport.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(ImageSupport.class.getName());
 
     static {
         // disable djvu convertor verbose logging
