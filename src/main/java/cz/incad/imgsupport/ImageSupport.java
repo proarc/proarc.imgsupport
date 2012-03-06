@@ -169,13 +169,13 @@ public final class ImageSupport {
     }
 
     public static void writeImageToStream(BufferedImage scaledImage, String javaFormat, FileImageOutputStream os, float quality) throws IOException {
-
+//        fixForJpegWriter(scaledImage, javaFormat);
         Iterator<ImageWriter> iter = ImageIO.getImageWritersByFormatName(javaFormat);
         if (iter.hasNext()) {
             ImageWriter writer = iter.next();
             ImageWriteParam iwp = writer.getDefaultWriteParam();
-            String compType = iwp.getCompressionType();
-            System.out.println(compType);
+            // String compType = iwp.getCompressionType();
+            // System.out.println(compType);
             // iwp.setCompressionMode(ImageWriteParam.MODE_EXPLICIT);
             // iwp.setCompressionQuality(quality); // an integer between 0 and 1
             writer.setOutput(os);
@@ -186,7 +186,27 @@ public final class ImageSupport {
         } else {
             throw new IOException("No writer for format '" + javaFormat + "'");
         }
+    }
 
+    /**
+     * JPEG Writer generates a black image in case the original image defines
+     * transparency.
+     * This fix should work around the problem by redrawing the image to another
+     * BufferedImage.
+     * @param image original image
+     * @param format format of the original image
+     * @return redrawn image
+     * @see <a href='http://stackoverflow.com/questions/464825/converting-transparent-gif-png-to-jpeg-using-java'></a>
+     */
+    public static BufferedImage fixForJpegWriter(BufferedImage image, String format) {
+        if ("jpg".equals(format) || "jpeg".equals(format)) {
+            BufferedImage redraw = new BufferedImage(image.getWidth(), image.getHeight(),
+                    BufferedImage.TYPE_INT_RGB);
+            redraw.getGraphics().drawImage(image, 0, 0, null);
+            return redraw;
+        } else {
+            return image;
+        }
     }
 
     public static BufferedImage scale(BufferedImage img, int targetWidth, int targetHeight) {
