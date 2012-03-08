@@ -26,22 +26,22 @@ public enum ImageMimeType {
     DJVU("image/djvu", "djvu", false, false, true),
     PDF("application/pdf", "pdf", false, false, true),
     TIFF("image/tiff", "tiff", false, true, false);
-    private String value;
+    private String mime;
     private boolean supportedbyJava;
     private boolean supportedbyJAI;
     private boolean multipageFormat;
     private String defaultFileExtension;
 
-    private ImageMimeType(String value, String defaultExtension, boolean javasupport, boolean jaiSupport, boolean multipageformat) {
-        this.value = value;
+    private ImageMimeType(String mime, String defaultExtension, boolean javasupport, boolean jaiSupport, boolean multipageformat) {
+        this.mime = mime;
         this.supportedbyJava = javasupport;
         this.supportedbyJAI = jaiSupport;
         this.multipageFormat = multipageformat;
         this.defaultFileExtension = defaultExtension;
     }
 
-    public String getValue() {
-        return value;
+    public String getMimeType() {
+        return mime;
     }
 
     public boolean javaNativeSupport() {
@@ -67,7 +67,7 @@ public enum ImageMimeType {
     public static ImageMimeType loadFromMimeType(String mime) {
         ImageMimeType[] values = values();
         for (ImageMimeType iType : values) {
-            if (iType.getValue().equals(mime)) {
+            if (iType.getMimeType().equals(mime)) {
                 return iType;
             }
         }

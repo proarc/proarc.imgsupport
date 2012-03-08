@@ -105,7 +105,7 @@ public final class ImageSupport {
                     return convertRenderedImage(decodedImage);
                 }
             } else {
-                throw new IllegalArgumentException("no jai decoder for type '" + type.getValue() + "'");
+                throw new IllegalArgumentException("no jai decoder for type '" + type.getMimeType() + "'");
             }
 
         } else if ((type.equals(ImageMimeType.DJVU)) || (type.equals(ImageMimeType.VNDDJVU)) || (type.equals(ImageMimeType.XDJVU))) {
@@ -130,7 +130,7 @@ public final class ImageSupport {
                 return null;
             }
         } else {
-            throw new IllegalArgumentException("unsupported mimetype '" + type.getValue() + "'");
+            throw new IllegalArgumentException("unsupported mimetype '" + type.getMimeType() + "'");
         }
     }
 
