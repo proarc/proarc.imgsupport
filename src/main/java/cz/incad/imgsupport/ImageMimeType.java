@@ -25,7 +25,7 @@ public enum ImageMimeType {
     VNDDJVU("image/vnd.djvu", "djvu", false, false, true),
     DJVU("image/djvu", "djvu", false, false, true),
     PDF("application/pdf", "pdf", false, false, true),
-    TIFF("image/tif", "tiff", false, true, false);
+    TIFF("image/tiff", "tiff", false, true, false);
     private String value;
     private boolean supportedbyJava;
     private boolean supportedbyJAI;
