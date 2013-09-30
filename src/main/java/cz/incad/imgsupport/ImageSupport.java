@@ -37,6 +37,7 @@ import java.awt.image.BufferedImage;
 import java.awt.image.ColorModel;
 import java.awt.image.RenderedImage;
 import java.awt.image.WritableRaster;
+import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
@@ -92,20 +93,23 @@ public final class ImageSupport {
             return null;
         }
         if (type.javaNativeSupport()) {
-            InputStream stream = url.openStream();
-            return ImageIO.read(stream);
+            return ImageIO.read(url);
         } else if (type.isSupportedbyJAI()) {
-            InputStream stream = url.openStream();
-            ImageDecoder decoder = ImageCodec.createImageDecoder(type.getDefaultFileExtension(), url.openStream(), null);
-            if (decoder != null) {
-                RenderedImage decodedImage = decoder.decodeAsRenderedImage();
-                if (decodedImage instanceof BufferedImage) {
-                    return (BufferedImage) decodedImage;
+            InputStream stream = new BufferedInputStream(url.openStream());
+            try {
+                ImageDecoder decoder = ImageCodec.createImageDecoder(type.getDefaultFileExtension(), stream, null);
+                if (decoder != null) {
+                    RenderedImage decodedImage = decoder.decodeAsRenderedImage();
+                    if (decodedImage instanceof BufferedImage) {
+                        return (BufferedImage) decodedImage;
+                    } else {
+                        return convertRenderedImage(decodedImage);
+                    }
                 } else {
-                    return convertRenderedImage(decodedImage);
+                    throw new IllegalArgumentException("no jai decoder for type '" + type.getMimeType() + "'");
                 }
-            } else {
-                throw new IllegalArgumentException("no jai decoder for type '" + type.getMimeType() + "'");
+            } finally {
+                stream.close();
             }
 
         } else if ((type.equals(ImageMimeType.DJVU)) || (type.equals(ImageMimeType.VNDDJVU)) || (type.equals(ImageMimeType.XDJVU))) {
@@ -146,11 +150,15 @@ public final class ImageSupport {
             Iterator<ImageReader> readers = ImageIO.getImageReadersBySuffix(type.getDefaultFileExtension());
             if (readers.hasNext()) {
                 ImageReader reader = readers.next();
-                ImageInputStream istream = ImageIO.createImageInputStream(url.openStream());
-                reader.setInput(istream);
-                int height = reader.getHeight(0);
-                int width = reader.getWidth(0);
-                return new Dimension(width, height);
+                ImageInputStream istream = ImageIO.createImageInputStream(new BufferedInputStream(url.openStream()));
+                try {
+                    reader.setInput(istream);
+                    int height = reader.getHeight(0);
+                    int width = reader.getWidth(0);
+                    return new Dimension(width, height);
+                } finally {
+                    istream.close();
+                }
             } else {
                 return null;
             }
