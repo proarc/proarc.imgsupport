@@ -7,7 +7,7 @@
     <modelVersion>4.0.0</modelVersion>
     <artifactId>img-support</artifactId>
     <groupId>cz.incad</groupId>
-    <version>jar</version>
+    <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <dependencies>
